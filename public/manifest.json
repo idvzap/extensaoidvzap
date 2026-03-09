@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Extensão IDVZap",
+  "version": "1.0.0",
+  "description": "Integração IDVZap, Advbox e ZapSign",
+  "permissions": [
+    "storage",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:3000/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "index.html"
+  },
+  "action": {
+    "default_title": "Extensão IDVZap",
+  }
