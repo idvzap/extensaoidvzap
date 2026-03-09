@@ -63,7 +63,7 @@ async function callIdvZap(body: Record<string, unknown>) {
   const token = localStorage.getItem('token');
   if (!token) throw new Error("Usuário não autenticado");
 
-  const response = await fetch("http://127.0.0.1:3000/api/idvzap", {
+  const response = await fetch("https://extensao-extensao.wblpnk.easypanel.host/api/idvzap", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

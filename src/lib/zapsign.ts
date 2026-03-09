@@ -71,7 +71,7 @@ async function callZapSign(body: Record<string, unknown>) {
   const token = localStorage.getItem('token');
   if (!token) throw new Error("Usuário não autenticado");
 
-  const response = await fetch("http://127.0.0.1:3000/api/zapsign", {
+  const response = await fetch("https://extensao-extensao.wblpnk.easypanel.host/api/zapsign", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

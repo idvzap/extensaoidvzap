@@ -20,8 +20,8 @@ const Login = () => {
     setLoading(true);
 
     try {
-      // Ajuste a URL conforme onde seu backend estiver rodando (ex: http://127.0.0.1:3000)
-      const response = await fetch("http://127.0.0.1:3000/api/login", {
+      // Ajuste a URL conforme onde seu backend estiver rodando (ex: https://extensao-extensao.wblpnk.easypanel.host)
+      const response = await fetch("https://extensao-extensao.wblpnk.easypanel.host/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
