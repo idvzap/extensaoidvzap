@@ -24,9 +24,9 @@ COPY server/index.js ./server/
 # Copia o build do frontend
 COPY --from=builder /app/dist ./dist
 
-EXPOSE 8080
+EXPOSE 3000
 
-ENV PORT=8080
+ENV PORT=3000
 ENV NODE_ENV=production
 
 CMD ["node", "server/index.js"]
