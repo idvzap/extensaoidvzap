@@ -246,6 +246,26 @@ app.post('/api/advbox', authenticateToken, async (req, res) => {
       return res.json(response.data);
     }
 
+    if (action === "create_customer") {
+      const body = {
+        users_id: params.users_id,
+        customers_origins_id: params.customers_origins_id,
+        name: params.name,
+        ...(params.email && { email: params.email }),
+        ...(params.identification && { identification: params.identification }),
+        ...(params.phone && { phone: params.phone }),
+        ...(params.cellphone && { cellphone: params.cellphone }),
+        ...(params.birthdate && { birthdate: params.birthdate }),
+        ...(params.occupation && { occupation: params.occupation }),
+        ...(params.postalcode && { postalcode: params.postalcode }),
+        ...(params.city && { city: params.city }),
+        ...(params.state && { state: params.state }),
+        ...(params.notes && { notes: params.notes }),
+      };
+      const response = await axios.post(`${ADVBOX_BASE}/customers`, body, { headers: authHeaders });
+      return res.json(response.data);
+    }
+
     res.status(400).json({ error: "Ação desconhecida para Advbox" });
 
   } catch (err) {

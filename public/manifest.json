@@ -8,7 +8,7 @@
     "sidePanel"
   ],
   "host_permissions": [
-    "http://127.0.0.1:3000/*"
+    "https://extensao-extensao.wblpnk.easypanel.host/*"
   ],
   "background": {
     "service_worker": "background.js"
@@ -17,5 +17,6 @@
     "default_path": "index.html"
   },
   "action": {
-    "default_title": "Extensão IDVZap",
+    "default_title": "Extensão IDVZap"
   }
+}

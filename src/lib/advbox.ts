@@ -126,6 +126,23 @@ export interface AdvboxSettings {
   tasks?: { id: number; name: string }[];
   stages?: { id: number; name: string }[];
   type_lawsuits?: { id: number; name: string }[];
+  customers_origins?: { id: number; name: string }[];
+}
+
+export interface CreateCustomerParams {
+  users_id: number;
+  customers_origins_id: number;
+  name: string;
+  email?: string;
+  identification?: string;
+  phone?: string;
+  cellphone?: string;
+  birthdate?: string;
+  occupation?: string;
+  postalcode?: string;
+  city?: string;
+  state?: string;
+  notes?: string;
 }
 
 // --- API calls ---
@@ -205,6 +222,10 @@ export async function getPublicationsByLawsuit(
   lawsuitId: number
 ): Promise<AdvboxPublicationsResponse> {
   return callAdvbox({ action: "publications", lawsuit_id: lawsuitId });
+}
+
+export async function createCustomer(params: CreateCustomerParams): Promise<{ id: number }> {
+  return callAdvbox({ action: "create_customer", ...params });
 }
 
 export async function listCustomers(filters?: {
