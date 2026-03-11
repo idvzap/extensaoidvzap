@@ -10,6 +10,38 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { listCustomers, createCustomer, getSettings } from "@/lib/advbox";
 import { useToast } from "@/hooks/use-toast";
 
+function maskCpfCnpj(value: string) {
+  const digits = value.replace(/\D/g, "").slice(0, 14);
+  if (digits.length <= 11) {
+    return digits
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+  }
+  return digits
+    .replace(/(\d{2})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1/$2")
+    .replace(/(\d{4})(\d{1,2})$/, "$1-$2");
+}
+
+function maskPostalCode(value: string) {
+  const digits = value.replace(/\D/g, "").slice(0, 8);
+  return digits.replace(/(\d{5})(\d{1,3})$/, "$1-$2");
+}
+
+function maskPhone(value: string) {
+  const digits = value.replace(/\D/g, "").slice(0, 11);
+  if (digits.length <= 10) {
+    return digits
+      .replace(/(\d{2})(\d)/, "($1) $2")
+      .replace(/(\d{4})(\d{1,4})$/, "$1-$2");
+  }
+  return digits
+    .replace(/(\d{2})(\d)/, "($1) $2")
+    .replace(/(\d{5})(\d{1,4})$/, "$1-$2");
+}
+
 const EMPTY_FORM = {
   users_id: "",
   customers_origins_id: "",
@@ -226,7 +258,7 @@ const ClientsPanel = () => {
                   <Label>Celular</Label>
                   <Input
                     value={form.cellphone}
-                    onChange={(e) => field("cellphone", e.target.value)}
+                    onChange={(e) => field("cellphone", maskPhone(e.target.value))}
                     placeholder="(11) 99999-9999"
                     className="h-9 text-sm"
                   />
@@ -235,7 +267,7 @@ const ClientsPanel = () => {
                   <Label>Telefone</Label>
                   <Input
                     value={form.phone}
-                    onChange={(e) => field("phone", e.target.value)}
+                    onChange={(e) => field("phone", maskPhone(e.target.value))}
                     placeholder="(11) 3333-4444"
                     className="h-9 text-sm"
                   />
@@ -258,7 +290,7 @@ const ClientsPanel = () => {
                   <Label>CPF / CNPJ</Label>
                   <Input
                     value={form.identification}
-                    onChange={(e) => field("identification", e.target.value)}
+                    onChange={(e) => field("identification", maskCpfCnpj(e.target.value))}
                     placeholder="000.000.000-00"
                     className="h-9 text-sm"
                   />
@@ -289,7 +321,7 @@ const ClientsPanel = () => {
                   <Label>CEP</Label>
                   <Input
                     value={form.postalcode}
-                    onChange={(e) => field("postalcode", e.target.value)}
+                    onChange={(e) => field("postalcode", maskPostalCode(e.target.value))}
                     placeholder="00000-000"
                     className="h-9 text-sm"
                   />

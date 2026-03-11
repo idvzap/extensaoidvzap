@@ -106,6 +106,7 @@ app.post('/api/zapsign', authenticateToken, async (req, res) => {
     }
 
     const { action, ...params } = req.body;
+    console.log("[ZapSign] action:", action, "| params keys:", Object.keys(params));
 
     if (action === "list") {
       const page = params.page || 1;
@@ -143,6 +144,22 @@ app.post('/api/zapsign', authenticateToken, async (req, res) => {
 
     if (action === "get_template") {
       const response = await axios.get(`${ZAPSIGN_BASE}/api/v1/templates/${params.token}/`, {
+        headers: { Authorization: `Bearer ${apiToken}` }
+      });
+      return res.json(response.data);
+    }
+
+    if (action === "create_from_template") {
+      const body = {
+        template_id: params.template_id,
+        signer_name: params.signer_name,
+        signers: params.signers || [],
+        ...(params.data ? { data: params.data } : {}),
+        ...(params.send_automatic_email !== undefined ? { send_automatic_email: params.send_automatic_email } : {}),
+        ...(params.send_automatic_whatsapp !== undefined ? { send_automatic_whatsapp: params.send_automatic_whatsapp } : {}),
+      };
+      console.log("[ZapSign] create_from_template body:", JSON.stringify(body));
+      const response = await axios.post(`${ZAPSIGN_BASE}/api/v1/docs/?api_token=${apiToken}`, body, {
         headers: { Authorization: `Bearer ${apiToken}` }
       });
       return res.json(response.data);
