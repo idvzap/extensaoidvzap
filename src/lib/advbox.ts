@@ -126,7 +126,7 @@ export interface AdvboxSettings {
   tasks?: { id: number; name: string }[];
   stages?: { id: number; name: string }[];
   type_lawsuits?: { id: number; name: string }[];
-  customers_origins?: { id: number; name: string }[];
+  origins?: { id: number; origin: string }[];
 }
 
 export interface CreateCustomerParams {

@@ -203,8 +203,8 @@ const ClientsPanel = () => {
                     <SelectValue placeholder="Selecionar origem" />
                   </SelectTrigger>
                   <SelectContent>
-                    {(settings?.customers_origins ?? []).map((o) => (
-                      <SelectItem key={o.id} value={String(o.id)}>{o.name}</SelectItem>
+                    {(settings?.origins ?? []).map((o) => (
+                      <SelectItem key={o.id} value={String(o.id)}>{o.origin}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
