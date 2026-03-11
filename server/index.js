@@ -150,18 +150,28 @@ app.post('/api/zapsign', authenticateToken, async (req, res) => {
     }
 
     if (action === "create_from_template") {
+      // data comes as { "{{Var}}": "value" } — convert to [{ de: "Var", para: "value" }]
+      const rawData = params.data || {};
+      const dataArray = Object.entries(rawData).map(([k, v]) => ({
+        de: k.replace(/^\{\{|\}\}$/g, "").trim(),
+        para: v,
+      }));
       const body = {
         template_id: params.template_id,
         signer_name: params.signer_name,
         signers: params.signers || [],
-        ...(params.data ? { data: params.data } : {}),
-        ...(params.send_automatic_email !== undefined ? { send_automatic_email: params.send_automatic_email } : {}),
-        ...(params.send_automatic_whatsapp !== undefined ? { send_automatic_whatsapp: params.send_automatic_whatsapp } : {}),
+        lang: "pt-br",
+        external_id: null,
+        send_automatic_email: params.send_automatic_email ?? true,
+        send_automatic_whatsapp: params.send_automatic_whatsapp ?? false,
+        data: dataArray,
       };
       console.log("[ZapSign] create_from_template body:", JSON.stringify(body));
-      const response = await axios.post(`${ZAPSIGN_BASE}/api/v1/docs/?api_token=${apiToken}`, body, {
-        headers: { Authorization: `Bearer ${apiToken}` }
-      });
+      const response = await axios.post(
+        `${ZAPSIGN_BASE}/api/v1/models/create-doc`,
+        body,
+        { headers: { Authorization: `Bearer ${apiToken}` } }
+      );
       return res.json(response.data);
     }
 
